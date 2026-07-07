@@ -22,6 +22,11 @@ typedef struct InsertionInfo{
 
 // Funcao de cálculo de custo na inserção de um vértice na solução
 std::vector<InsertionInfo> calcularCustoInsercao(Solution s, std::vector<int>& CL);
-
+// Função para comparar o custo de duas inserções distintasd
+bool compararCustoInsercao(InsertionInfo& a, InsertionInfo& b);
+// Função responsável por preencher a CL(lista de candidatos)
+std::vector<int> preencherCL(const int &n);
+// Função responsável por ordenar o vector de InsertInfo usando o custo como parâmetro para ordenação
+void ordenarEmOrdemCrescente(std::vector<InsertionInfo>& vector);
 
 #endif

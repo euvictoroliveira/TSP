@@ -11,10 +11,12 @@
 #include <algorithm>
 #include "construcao.h"
 
+using std::vector;
+
 // Função responsável por calculor o custo de inserção de um vértice. Seus parâmetros são um objeto solução  e um vector de inteiros que representa a lista de candidados.  O retorno é um vector da estrutura InsertionInfo definida acima.
-std::vector<InsertionInfo> calcularCustoInsercao(Solution& s, std::vector<int> CL){
+vector<InsertionInfo> calcularCustoInsercao(Solution& s, std::vector<int> CL){
     // Vetor de inserções
-    std::vector<InsertionInfo> custoInsercao = std::vector<InsertionInfo>((s.route.size() - 1) * CL.size());
+    vector<InsertionInfo> custoInsercao = vector<InsertionInfo>((s.route.size() - 1) * CL.size());
 
     // Matriz de adjacência necessária para o cálculo de custo da inserção
     Data & data = Data::getInstance();
@@ -37,4 +39,25 @@ std::vector<InsertionInfo> calcularCustoInsercao(Solution& s, std::vector<int> C
     }
 
     return custoInsercao;
+}
+// Implementa compararCustoInsercao()
+bool compararCustoInsercao(InsertionInfo& a, InsertionInfo& b){
+    return a.custo < b.custo; // Verifica qual das inserções possui o menor custo. Retorna true se a for menor que b.
+}
+// Implementa preencherCL()
+vector<int> preencherCL(const int& n){
+    // Recebe instância da matriz de adjacência
+    Data &data = Data::getInstance();
+    vector<int> candidatos;
+
+    // For responsável por percorrer todos os candidatos a partir do segundo(o primeiro vértice já está inserido na solução)
+    for(int i = 2; i <= data.n; i++){
+        // Retorna à iteração caso o vértice atual seja igual ao número passado como parâmetro da função
+        if(i == n)
+            continue;
+
+        candidatos.push_back(i); // adiciona o vertice a candidate list
+    }
+
+    return candidatos; // retorna o vector com os vértices na CL
 }

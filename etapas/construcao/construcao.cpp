@@ -61,3 +61,18 @@ vector<int> preencherCL(const int& n){
 
     return candidatos; // retorna o vector com os vértices na CL
 }
+// Implementa ordenar em ordem crescente
+void ordenarEmOrdemCrescente(std::vector<InsertionInfo> vector){
+    sort(vector.begin(), vector.end(), compararCustoInsercao);
+}
+// Implementa função para inserir um vértice na solução
+void inserir(Solution& s, InsertionInfo& escolhido, std::vector<int>& CL){
+    // Inicialmente, é necessário retirar o vértice escolhido da lista de candidatos
+    CL.erase(std::remove(CL.begin(), CL.end(), escolhido.noInserido));
+    // Inserção do vértice escolhido
+    std::vector<int>& route = s.route; // referência para a rota.
+
+    route.insert(route.begin() + escolhido.arestaRemovida + 1, escolhido.noInserido);
+    s.cost += escolhido.custo; // adiciona o custo de inserção do vértice ao custo total da solução
+    
+}

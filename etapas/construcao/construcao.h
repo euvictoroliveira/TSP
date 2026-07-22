@@ -28,5 +28,7 @@ bool compararCustoInsercao(InsertionInfo& a, InsertionInfo& b);
 std::vector<int> preencherCL(const int &n);
 // Função responsável por ordenar o vector de InsertInfo usando o custo como parâmetro para ordenação
 void ordenarEmOrdemCrescente(std::vector<InsertionInfo>& vector);
+// Função responsável por inserir um vértice no vetor de soluções
+void inserir(Solution &s, InsertionInfo escolhido, std::vector<int>& CL);
 
 #endif

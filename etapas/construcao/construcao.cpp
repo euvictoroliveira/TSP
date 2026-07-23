@@ -45,34 +45,105 @@ bool compararCustoInsercao(InsertionInfo& a, InsertionInfo& b){
     return a.custo < b.custo; // Verifica qual das inserções possui o menor custo. Retorna true se a for menor que b.
 }
 // Implementa preencherCL()
-vector<int> preencherCL(const int& n){
+vector<int> preencherCL(const Solution& s){
     // Recebe instância da matriz de adjacência
     Data &data = Data::getInstance();
-    vector<int> candidatos;
+    vector<int> CL;
 
     // For responsável por percorrer todos os candidatos a partir do segundo(o primeiro vértice já está inserido na solução)
     for(int i = 2; i <= data.n; i++){
-        // Retorna à iteração caso o vértice atual seja igual ao número passado como parâmetro da função
-        if(i == n)
-            continue;
-
-        candidatos.push_back(i); // adiciona o vertice a candidate list
+        // Verifica quais vértices estão na rota
+        if(find(s.route.begin(), s.route.end(), i) == s.route.end())
+            CL.push_back(i);
     }
 
-    return candidatos; // retorna o vector com os vértices na CL
+
+    return CL; // retorna o vector com os vértices na CL
 }
 // Implementa ordenar em ordem crescente
-void ordenarEmOrdemCrescente(std::vector<InsertionInfo> vector){
-    sort(vector.begin(), vector.end(), compararCustoInsercao);
+void ordenarEmOrdemCrescente(std::vector<InsertionInfo>& vetor){
+    sort(vetor.begin(), vetor.end(), compararCustoInsercao);
 }
 // Implementa função para inserir um vértice na solução
 void inserir(Solution& s, InsertionInfo& escolhido, std::vector<int>& CL){
     // Inicialmente, é necessário retirar o vértice escolhido da lista de candidatos
-    CL.erase(std::remove(CL.begin(), CL.end(), escolhido.noInserido));
+    CL.erase(std::remove(CL.begin(), CL.end(), escolhido.noInserido), CL.end());
     // Inserção do vértice escolhido
     std::vector<int>& route = s.route; // referência para a rota.
 
     route.insert(route.begin() + escolhido.arestaRemovida + 1, escolhido.noInserido);
     s.cost += escolhido.custo; // adiciona o custo de inserção do vértice ao custo total da solução
     
+}
+// Implementa função para gerar solução inicial com 3 nós aleatórios
+vector<int> gerarSolucaoInicial(Data& data){
+    vector<int> solucaoInicial;
+
+    solucaoInicial.push_back(1);
+
+    // Determina os 3 nós distintos da solução inicial
+    for(int i = 0; i < 3; i++){
+        int no;
+        bool repete = true;
+
+        // Enquanto o nó se repetir
+        while(repete){
+            // Escolhe os nós de 2 até n 
+            no = rand() % (data.getDimension() - 1) + 2;
+
+            // Verifica se o nó ainda não foi colocado na rota
+            if(find(solucaoInicial.begin(), solucaoInicial.end(), no) == solucaoInicial.end())
+                repete = false;
+
+        }
+
+        solucaoInicial.push_back(no);
+    }
+
+
+    solucaoInicial.push_back(1);
+
+    return solucaoInicial;
+
+}
+// Função para calcular o custo da rota
+double calcularCustoRota(const vector<int>& rota) {
+    Data &data = Data::getInstance();
+
+    double custo = 0.0;
+
+    for (int i = 0; i < rota.size() - 1; i++) {
+        custo += data.matrizAdj[rota[i]][rota[i + 1]];
+    }
+
+    return custo;
+}
+// Implementa construção
+Solution construcao(Data& data){
+    // A solução inicial começa com 3 nós aleatórios. Os outros nós são 
+    // Armazenados na lista de candidatos(CL)
+    Solution s;
+
+    s.route = gerarSolucaoInicial(data);
+    vector<int> CL = preencherCL(s);
+
+    // Preenche a solução enquanto a lista de candidatos não está vazia
+    while(!CL.empty()){
+        vector<InsertionInfo> custoInsercao = calcularCustoInsercao(s, CL);
+
+        ordenarEmOrdemCrescente(custoInsercao);
+
+        // O fator alpha é utilizado no GRASP como parâmetro para escolha entre uma decisão totalmente gulosa ou uma heuristica
+        double alpha = 0;
+        while(!alpha)
+            alpha = (double) rand() / RAND_MAX;
+
+        int escolhido = rand() %((int) ceil(alpha * custoInsercao.size()));
+
+        inserir(s, custoInsercao[escolhido], CL); 
+    }
+
+
+    return s;
+
 }

@@ -30,5 +30,11 @@ std::vector<int> preencherCL(const int &n);
 void ordenarEmOrdemCrescente(std::vector<InsertionInfo>& vector);
 // Função responsável por inserir um vértice no vetor de soluções
 void inserir(Solution &s, InsertionInfo escolhido, std::vector<int>& CL);
+// Função responsável por gerar a solução inicial
+std::vector<int> gerarSolucaoInicial(Data& data);
+// Função responsável por calcular o custo de uma rota
+ouble calcularCustoRota(const vector<int>& rota)
+// Função responsável pela construção
+Solution construcao(Data& data);
 
 #endif

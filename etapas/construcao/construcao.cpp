@@ -14,7 +14,7 @@
 using std::vector;
 
 // Função responsável por calculor o custo de inserção de um vértice. Seus parâmetros são um objeto solução  e um vector de inteiros que representa a lista de candidados.  O retorno é um vector da estrutura InsertionInfo definida acima.
-vector<InsertionInfo> calcularCustoInsercao(Solution& s, std::vector<int> CL){
+vector<InsertionInfo> calcularCustoInsercao(Solution& s, std::vector<int>& CL){
     // Vetor de inserções
     vector<InsertionInfo> custoInsercao = vector<InsertionInfo>((s.route.size() - 1) * CL.size());
 
@@ -65,7 +65,7 @@ void ordenarEmOrdemCrescente(std::vector<InsertionInfo>& vetor){
     sort(vetor.begin(), vetor.end(), compararCustoInsercao);
 }
 // Implementa função para inserir um vértice na solução
-void inserir(Solution& s, InsertionInfo& escolhido, std::vector<int>& CL){
+void inserir(Solution& s, InsertionInfo escolhido, std::vector<int>& CL){
     // Inicialmente, é necessário retirar o vértice escolhido da lista de candidatos
     CL.erase(std::remove(CL.begin(), CL.end(), escolhido.noInserido), CL.end());
     // Inserção do vértice escolhido
@@ -89,7 +89,7 @@ vector<int> gerarSolucaoInicial(Data& data){
         // Enquanto o nó se repetir
         while(repete){
             // Escolhe os nós de 2 até n 
-            no = rand() % (data.getDimension() - 1) + 2;
+            no = rand() % (data.n - 1) + 2;
 
             // Verifica se o nó ainda não foi colocado na rota
             if(find(solucaoInicial.begin(), solucaoInicial.end(), no) == solucaoInicial.end())
@@ -125,6 +125,7 @@ Solution construcao(Data& data){
     Solution s;
 
     s.route = gerarSolucaoInicial(data);
+    s.cost = calcularCustoRota(s.route);
     vector<int> CL = preencherCL(s);
 
     // Preenche a solução enquanto a lista de candidatos não está vazia

@@ -24,6 +24,21 @@ struct Solution
 
     void swap(const int i, const int j);
 
+    double Solution::evaluateOrOpt2(const int i, const int j);
+
+    void Solution::OrOpt2(const int i, const int j);
+
+    double Solution::evaluate2Opt(const int i, const int j);
+
+    void Solution::Opt2(const int i, const int j);
+
+    double Solution::evaluateOrOpt3(const int i, const int j);
+
+    void Solution::OrOpt3(const int i, const int j);
+
+    double Solution::evaluateReinsertion(const int i, const int j);
+
+    void Solution::Reinsertion(const int i, const int j);
 };
 
 

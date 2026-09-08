@@ -21,7 +21,7 @@ typedef struct InsertionInfo{
 
 
 // Funcao de cálculo de custo na inserção de um vértice na solução
-std::vector<InsertionInfo> calcularCustoInsercao(Solution s, std::vector<int>& CL);
+std::vector<InsertionInfo> calcularCustoInsercao(Solution& s, std::vector<int>& CL);
 // Função para comparar o custo de duas inserções distintasd
 bool compararCustoInsercao(InsertionInfo& a, InsertionInfo& b);
 // Função responsável por preencher a CL(lista de candidatos)
@@ -33,7 +33,7 @@ void inserir(Solution &s, InsertionInfo escolhido, std::vector<int>& CL);
 // Função responsável por gerar a solução inicial
 std::vector<int> gerarSolucaoInicial(Data& data);
 // Função responsável por calcular o custo de uma rota
-ouble calcularCustoRota(const vector<int>& rota)
+double calcularCustoRota(const vector<int>& rota);
 // Função responsável pela construção
 Solution construcao(Data& data);
 

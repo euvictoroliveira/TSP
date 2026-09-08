@@ -2,7 +2,7 @@
 #include <time.h>
 #include <iostream>
 
-#include "localSearch.h"
+#include "etapas/buscaLocal/buscaLocal.h"
 int main(){
 
     char *argv[2];
